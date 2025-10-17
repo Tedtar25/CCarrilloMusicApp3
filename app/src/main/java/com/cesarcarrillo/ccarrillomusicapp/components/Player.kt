@@ -2,12 +2,14 @@ package com.cesarcarrillo.ccarrillomusicapp.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,17 +21,12 @@ import coil.compose.rememberAsyncImagePainter
 import com.cesarcarrillo.ccarrillomusicapp.data.model.Album
 
 @Composable
-fun Player(
-    album: Album?,
-    modifier: Modifier = Modifier,
-    onAlbumClick: (Album) -> Unit = {}
-) {
+fun Player(album: Album?, modifier: Modifier = Modifier) {
     if (album != null) {
         Box(
             modifier = modifier
                 .background(MaterialTheme.colorScheme.primaryContainer)
-                .clickable() { onAlbumClick(album) } // 🔹 permite hacer clic en todo el player
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             contentAlignment = Alignment.CenterStart
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -41,19 +38,45 @@ fun Player(
                         .clip(RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.Crop
                 )
+
                 Spacer(modifier = Modifier.width(12.dp))
+
                 Column {
-                    Text(text = album.title, fontWeight = FontWeight.Bold)
-                    Text(text = album.artist, style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        text = album.title,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Text(
+                        text = album.artist,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
+                    )
                 }
+
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { /* TODO: play/pause */ }) {
+
+                IconButton(onClick = {  }) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Play"
+                        contentDescription = "Play",
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
+        }
+    } else {
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(72.dp)
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "No album selected",
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
