@@ -90,7 +90,7 @@ fun HomeContent(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        SectionTitle("Albums", onSeeMoreClick = { /* TODO */ })
+        SectionTitle("Albums", onSeeMoreClick = { })
         Spacer(modifier = Modifier.height(8.dp))
 
         LazyRow(
@@ -104,7 +104,7 @@ fun HomeContent(
 
         Spacer(modifier = Modifier.height(28.dp))
 
-        SectionTitle("Recently Played", onSeeMoreClick = { /* TODO */ })
+        SectionTitle("Recently Played", onSeeMoreClick = { })
         Spacer(modifier = Modifier.height(8.dp))
 
         LazyColumn(

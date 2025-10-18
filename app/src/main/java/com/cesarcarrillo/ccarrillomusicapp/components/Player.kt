@@ -54,7 +54,7 @@ fun Player(album: Album?, modifier: Modifier = Modifier) {
                 }
             }
             IconButton(
-                onClick = { /* TODO: Play/Pause */ },
+                onClick = { },
                 modifier = Modifier
                     .size(44.dp)
                     .background(Color.White, CircleShape)
