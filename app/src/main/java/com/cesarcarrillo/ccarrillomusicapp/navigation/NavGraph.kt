@@ -17,27 +17,33 @@ fun AppNavGraph(
         navController = navController,
         startDestination = "home"
     ) {
-
-        // Pantalla principal (Home)
+        // 🏠 Pantalla principal
         composable("home") {
             HomeScreen(
                 onAlbumClick = { album ->
-                    // Cuando se hace clic en un álbum, actualizamos el player
                     playerViewModel.setCurrentAlbum(album)
-                    navController.navigate("detail/${album.id}")
+                    navController.currentBackStackEntry
+                        ?.savedStateHandle
+                        ?.set("album", album)
+                    navController.navigate("detail")
                 },
-                playerViewModel = playerViewModel  //<- AQUI ESTA EL ERROR
+                playerViewModel = playerViewModel
             )
         }
 
-        // Pantalla de detalle
-        composable("detail/{albumId}") { backStackEntry ->
-            val albumId = backStackEntry.arguments?.getString("albumId") ?: ""
-            DetailScreen(
-                albumId = albumId,
-                playerViewModel = playerViewModel,
-                onBack = { navController.popBackStack() }
-            )
+        // 💿 Pantalla de detalle
+        composable("detail") {
+            val album =
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.get<com.cesarcarrillo.ccarrillomusicapp.data.model.Album>("album")
+
+            album?.let {
+                DetailScreen(
+                    album = it,
+                    onBackClick = { navController.popBackStack() }
+                )
+            }
         }
     }
 }
