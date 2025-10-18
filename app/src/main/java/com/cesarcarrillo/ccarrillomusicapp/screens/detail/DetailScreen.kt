@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.cesarcarrillo.ccarrillomusicapp.components.Player
 import com.cesarcarrillo.ccarrillomusicapp.data.model.Album
 import com.cesarcarrillo.ccarrillomusicapp.screens.home.PlayerViewModel
 
@@ -29,10 +31,10 @@ fun DetailScreen(
 
     val album = currentAlbum ?: Album(
         id = albumId,
-        title = "Unknown Album",
-        artist = "Unknown Artist",
-        image_url = "",
-        description = "No description available."
+        title = "----------------",
+        artist = "--------------",
+        image = "",
+        description = "---------------"
     )
 
     Box(
@@ -40,15 +42,19 @@ fun DetailScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
     ) {
+
+        // Contenido principal
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
+                .padding(bottom = 90.dp) // deja espacio para que no tape el player
         ) {
+
             item {
                 Box {
                     Image(
-                        painter = rememberAsyncImagePainter(album.image_url),
+                        painter = rememberAsyncImagePainter(album.image),
                         contentDescription = album.title,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -125,8 +131,7 @@ fun DetailScreen(
                         .padding(vertical = 4.dp)
                 ) {
                     Row(
-                        modifier = Modifier
-                            .padding(8.dp),
+                        modifier = Modifier.padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column {
@@ -143,5 +148,14 @@ fun DetailScreen(
                 }
             }
         }
+
+        // 🎵 Player visible en detalle
+        Player(
+            album = currentAlbum,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(72.dp)
+        )
     }
 }

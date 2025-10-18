@@ -143,7 +143,7 @@ fun AlbumCard(album: Album, onAlbumClick: (Album) -> Unit) {
     ) {
         Box {
             Image(
-                painter = rememberAsyncImagePainter(album.image_url),
+                painter = rememberAsyncImagePainter(album.image),
                 contentDescription = album.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
@@ -178,7 +178,7 @@ fun AlbumListItem(album: Album, onAlbumClick: (Album) -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = rememberAsyncImagePainter(album.image_url),
+                painter = rememberAsyncImagePainter(album.image),
                 contentDescription = album.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

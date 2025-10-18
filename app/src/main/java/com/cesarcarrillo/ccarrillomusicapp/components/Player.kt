@@ -2,14 +2,12 @@ package com.cesarcarrillo.ccarrillomusicapp.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,42 +19,37 @@ import coil.compose.rememberAsyncImagePainter
 import com.cesarcarrillo.ccarrillomusicapp.data.model.Album
 
 @Composable
-fun Player(album: Album?, modifier: Modifier = Modifier) {
+fun Player(
+    album: Album?,
+    modifier: Modifier = Modifier,
+    onPlayerClick: (() -> Unit)? = null
+) {
     if (album != null) {
         Box(
             modifier = modifier
+                .clickable(enabled = onPlayerClick != null) { onPlayerClick?.invoke() }
                 .background(MaterialTheme.colorScheme.primaryContainer)
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            contentAlignment = Alignment.CenterStart
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Image(
-                    painter = rememberAsyncImagePainter(album.image_url),
+                    painter = rememberAsyncImagePainter(album.image),
                     contentDescription = album.title,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(48.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
+                        .size(56.dp)
+                        .clip(RoundedCornerShape(8.dp))
                 )
-
                 Spacer(modifier = Modifier.width(12.dp))
-
                 Column {
-                    Text(
-                        text = album.title,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                    Text(
-                        text = album.artist,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
-                    )
+                    Text(text = album.title, fontWeight = FontWeight.Bold)
+                    Text(text = album.artist, style = MaterialTheme.typography.bodySmall)
                 }
-
                 Spacer(modifier = Modifier.weight(1f))
-
-                IconButton(onClick = {  }) {
+                IconButton(onClick = { /* No cambia aún */ }) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
                         contentDescription = "Play",
@@ -64,19 +57,6 @@ fun Player(album: Album?, modifier: Modifier = Modifier) {
                     )
                 }
             }
-        }
-    } else {
-        Box(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(72.dp)
-                .background(MaterialTheme.colorScheme.surfaceVariant),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "No album selected",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
         }
     }
 }

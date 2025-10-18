@@ -7,5 +7,5 @@ data class Album(
     val title: String,
     val artist: String,
     val description: String,
-    val image_url: String
+    val image: String
 ) : Serializable
