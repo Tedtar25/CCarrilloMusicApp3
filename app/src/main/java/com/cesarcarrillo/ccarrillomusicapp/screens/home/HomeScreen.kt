@@ -24,8 +24,10 @@ import com.cesarcarrillo.ccarrillomusicapp.data.model.Album
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(),
-    onAlbumClick: (Album) -> Unit
-) {
+    onAlbumClick: (Album) -> Unit,
+    playerViewModel: PlayerViewModel
+)
+ {
     val uiState by viewModel.uiState.collectAsState()
     var currentAlbum by rememberSaveable { mutableStateOf<Album?>(null) }
 
